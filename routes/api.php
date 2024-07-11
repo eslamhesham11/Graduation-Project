@@ -1,10 +1,15 @@
 <?php
 
+use App\Http\Controllers\Api\Attendancecontroller;
 use App\Http\Controllers\Api\ImageController;
 use App\Http\Controllers\AuthController as ControllersAuthController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\Api\Examcontroller;
+use App\Http\Controllers\Api\StudentController;
+use App\Models\Attendance;
+use App\Models\student;
 use PharIo\Manifest\AuthorCollection;
 
 /*
@@ -25,12 +30,19 @@ Route::group([
     'middleware' => 'api',
     'prefix' => 'auth'
 ], function ($router) {
-    Route::post('/login', [AuthController::class, 'login']);
-    Route::get('/register', [AuthController::class, 'register']);
+    Route::get('student/register', [AuthController::class, 'registerStudent']);
+    Route::get('admin/register', [AuthController::class, 'registerAdmin']);
+    Route::post('student/login', [AuthController::class, 'loginStudent']);
+    Route::post('admin/login', [AuthController::class, 'loginAdmin']);
+    // Route::get('student/attendance/{examName}', [AttendanceController::class, 'checkStudentAttendance']);
 });
 
-Route::middleware(['jwt-verify'])->group(function () {
-    Route::get('/get-data', [ImageController::class, 'getAllData']);
-    Route::post('/upload', [ImageController::class, 'uploadImage']);
-    Route::delete('/delete-image/{id}', [ImageController::class, 'deleteImage']);
-});
+
+Route::get('/get-data/{subject}', [ImageController::class, 'getAllData']);
+Route::post('/upload', [ImageController::class, 'uploadImage']);
+Route::delete('/delete-image', [ImageController::class, 'deleteImage']);
+Route::post('/exams', [ExamController::class, 'store']);
+Route::post('/attendance', [Attendancecontroller::class, 'recordAttendance']);
+Route::get('/show-attendance/{examName}', [Attendancecontroller::class, 'showAttendance']);
+// Route::middleware('auth:api')->get('student/attendance/{examName}', [AttendanceController::class, 'checkStudentAttendance']);
+Route::get('student/attendance/{examName}', [AttendanceController::class, 'checkStudentAttendance']);

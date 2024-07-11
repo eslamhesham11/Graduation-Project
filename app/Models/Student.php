@@ -2,43 +2,18 @@
 
 namespace App\Models;
 
-use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Notifications\Notifiable;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 
-class Admin extends Authenticatable implements JWTSubject
+class Student  extends Authenticatable implements JWTSubject
 {
-    use HasFactory, Notifiable;
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array
-     */
-    protected $fillable = [
-        'name',
-        'email',
-        'password',
-    ];
+    use HasFactory;
+    protected $table = 'students';
+    protected $fillable = ['id', 'name', 'password', 'email'];
 
-    public function images()
-    {
-        return $this->hasMany(Image::class, 'admin_id');
-    }
-    public function attendances()
-    {
-        return $this->hasMany(Attendance::class, 'admin_id');
-    }
-    public function exams()
-    {
-        return $this->hasMany(Exam::class, 'admin_id');
-    }
-    /**
-     * The attributes that should be hidden for arrays.
-     *
-     * @var array
-     */
+
     protected $hidden = [
         'password',
         'remember_token',
@@ -70,4 +45,13 @@ class Admin extends Authenticatable implements JWTSubject
     {
         return [];
     }
+
+    public function attendances()
+    {
+        return $this->hasMany(Attendance::class, 'student_id');
+    }
+    // public function exams()
+    // {
+    //     return $this->belongsToMany(Exam::class);
+    // }
 }

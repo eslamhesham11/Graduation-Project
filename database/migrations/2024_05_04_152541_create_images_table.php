@@ -14,7 +14,15 @@ return new class extends Migration
         Schema::create('images', function (Blueprint $table) {
             $table->id();
             $table->string('path');
+            $table->string('title');
+            $table->string('subjectName');
+            $table->unsignedBigInteger('exam_id');
+            $table->unsignedBigInteger('admin_id');
+            // $table->unsignedBigInteger('admin_id');
             $table->timestamps();
+            $table->foreign('exam_id')->references('id')->on('exams')->cascadeOnDelete();
+            $table->foreign('admin_id')->references('id')->on('admins')->cascadeOnDelete();
+            // $table->foreign('admin_id')->references('id')->on('admins')->cascadeOnDelete();
         });
     }
 

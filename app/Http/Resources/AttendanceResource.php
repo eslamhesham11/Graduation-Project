@@ -5,7 +5,7 @@ namespace App\Http\Resources;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class ImageResource extends JsonResource
+class AttendanceResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -16,9 +16,9 @@ class ImageResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'path' => $this->path,
-            'title' => $this->title,
-            'subjectName' => $this->subjectName,
+            'student_id' => $this->student_id,
+            'name' => $this->student->name,
+            // 'created_at' => $this->created_at->format('Y-m-d H:i:s'),
             'created_at' => $this->created_at->format('Y-m-d'),
         ];
     }
